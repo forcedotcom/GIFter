@@ -9,4 +9,5 @@
     <navType>Standard</navType>
     <tabs>GIFter</tabs>
     <uiType>Lightning</uiType>
+    <utilityBar>GIFter_UtilityBar</utilityBar>
 </CustomApplication>

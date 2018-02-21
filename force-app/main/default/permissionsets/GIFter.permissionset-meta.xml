@@ -6,4 +6,8 @@
     </applicationVisibilities>
     <hasActivationRequired>false</hasActivationRequired>
     <label>GIFter</label>
+    <tabSettings>
+        <tab>GIFter</tab>
+        <visibility>Visible</visibility>
+    </tabSettings>
 </PermissionSet>

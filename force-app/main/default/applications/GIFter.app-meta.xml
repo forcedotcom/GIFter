@@ -5,7 +5,7 @@
         <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
     </brand>
     <formFactors>Large</formFactors>
-    <label>GIFter</label>
+    <label>GIFter: GIFs2Chatter</label>
     <navType>Standard</navType>
     <tabs>GIFter</tabs>
     <uiType>Lightning</uiType>

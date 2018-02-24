@@ -9,7 +9,7 @@
       $Resource.jquery331, 
       $Resource.GIPHY)}" afterScriptsLoaded="{!c.afterScriptsLoaded}" />
 
-  <lightning:card>
+  <lightning:card iconName="utility:search" title="GIPHY Search Terms">
 
     <lightning:layout verticalAlign="end" class="path-to-zip slds-m-around--small">
       <lightning:layoutitem flexibility="grow">
@@ -24,7 +24,7 @@
 
   </lightning:card>
 
-  <lightning:card>
+  <lightning:card iconName="utility:photo" title="GIPHY Search Results">
     <lightning:layout horizontalAlign="center" multipleRows="true">
 
       <aura:iteration items="{!v.results}" var="result">

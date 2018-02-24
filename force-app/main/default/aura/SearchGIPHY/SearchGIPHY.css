@@ -1,2 +1,16 @@
-.THIS {
+.THIS .gif-image {
+  position:relative;
+  width: 100%;
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.THIS .path-to-zip {
+  margin-bottom: 12px;
+}
+
+.THIS .path-to-zip .slds-button {
+  margin-left: 8px;
 }

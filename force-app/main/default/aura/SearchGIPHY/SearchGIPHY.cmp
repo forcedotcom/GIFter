@@ -1,3 +1,45 @@
-<aura:component implements="force:appHostable">
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes">
 
-</aura:component>	
+  <aura:attribute name="searchTerms" type="String" />
+  <aura:attribute name="results" type="Map" />
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <ltng:require scripts="{!join(',', 
+      $Resource.jquery331, 
+      $Resource.GIPHY)}" afterScriptsLoaded="{!c.afterScriptsLoaded}" />
+
+  <lightning:card>
+
+    <lightning:layout verticalAlign="end" class="path-to-zip slds-m-around--small">
+      <lightning:layoutitem flexibility="grow">
+        <span onkeypress="{!c.keyCheck}">
+          <lightning:input aura:id="searchTerms" type="text" label="Search Terms" value="{!v.searchTerms}" />
+        </span>
+      </lightning:layoutitem>
+      <lightning:layoutitem>
+        <lightning:button onclick="{!c.search}">Search</lightning:button>
+      </lightning:layoutitem>
+    </lightning:layout>
+
+  </lightning:card>
+
+  <lightning:card>
+    <lightning:layout horizontalAlign="center" multipleRows="true">
+
+      <aura:iteration items="{!v.results}" var="result">
+        <lightning:layoutItem padding="around-small" size="8" smallDeviceSize="6" mediumDeviceSize="4" largeDeviceSize="3">
+
+          <div class="gif-image">
+            <a onclick="{!c.gifSelected}">
+              <img src="{!result.images.fixed_height.url}"></img>
+            </a>
+          </div>
+
+        </lightning:layoutItem>
+      </aura:iteration>
+
+    </lightning:layout>
+  </lightning:card>
+
+</aura:component>

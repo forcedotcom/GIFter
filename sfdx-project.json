@@ -1,12 +1,12 @@
 {
-  "packageDirectories": [
-    {
-      "path": "force-app",
-      "default": true,
-      "id": "",
-      "versionNumber": "1.0.0.NEXT",
-      "versionName": ""
-    }
+"packageDirectories": [
+  {
+    "path": "force-app",
+    "default": true,
+    "id": "YOUR_PACKAGE_ID",
+    "versionNumber": "1.0.0.NEXT",
+    "versionName": "Spring ‘18"
+  }
   ],
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",

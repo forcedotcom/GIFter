@@ -36,7 +36,8 @@ sfdx force:package2:version:create -d force-app --wait 10
 This will take a few moments. When complete, you'll have a message like the following:
 
 ```
-Successfully created the package2 version [08c6A0000004CFWQA2]. Package2 Version Id: 05i6A000000CaSoQAK. Subscriber Package2 Version Id: 04t6A000001aR9rQAE.
+Successfully created the package2 version [08c6A0000004CFWQA2]. Package2 Version Id: 05i6A000000CaSoQAK.
+Subscriber Package2 Version Id: 04t6A000001aR9rQAE.
 ```
 
 Grab the last ID that starts with `04t` as that's what we'll use when installing into a new environment.

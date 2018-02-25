@@ -2,12 +2,46 @@
 
   <aura:attribute name="searchTerms" type="String" />
   <aura:attribute name="results" type="Map" />
+  <aura:attribute name="showModal" type="Boolean" default="false" />
+  <aura:attribute name="selectedGif" type="String" default="http://placehold.it/480x276" />
+  <aura:attribute name="selectedGifWidth" type="String" default="480" />
+  <aura:attribute name="selectedGifHeight" type="String" default="360" />
 
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
   <ltng:require scripts="{!join(',', 
       $Resource.jquery331, 
       $Resource.GIPHY)}" afterScriptsLoaded="{!c.afterScriptsLoaded}" />
+
+  <aura:if isTrue="{!v.showModal==true}">
+
+    <div class="post-modal">
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1"
+        class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Post to Chatter?</h2>
+          </header>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+            <div class="preview-image">
+              <iframe src="{!v.selectedGif}" width="{!v.selectedGifWidth}" height="{!v.selectedGifHeight}" frameBorder="0" />
+            </div>
+            <br />
+            <p>
+              <lightning:textarea aura:id="chatterText" label="Anything you want to say to go with this GIF?" value="" />
+            </p>
+
+          </div>
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Cancel</button>
+            <button class="slds-button slds-button_brand">Post</button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+  </aura:if>
 
   <lightning:card iconName="utility:search" title="GIPHY Search Terms">
 
@@ -32,7 +66,7 @@
 
           <div class="gif-image">
             <a onclick="{!c.gifSelected}">
-              <img src="{!result.images.fixed_height.url}"></img>
+              <img id="{!'img' + result.id}" src="{!result.images.fixed_height.url}" data-index="{!result.id}"></img>
             </a>
           </div>
 
@@ -41,5 +75,7 @@
 
     </lightning:layout>
   </lightning:card>
+
+
 
 </aura:component>

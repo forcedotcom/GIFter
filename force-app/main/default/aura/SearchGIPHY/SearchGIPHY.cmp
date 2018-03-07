@@ -1,4 +1,6 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes">
+<aura:component 
+    implements="force:appHostable,flexipage:availableForAllPageTypes" 
+    controller="ChatterHelper">
 
   <aura:attribute name="searchTerms" type="String" />
   <aura:attribute name="results" type="Map" />

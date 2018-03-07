@@ -1,4 +1,3 @@
-
 ({
 
   afterScriptsLoaded: function (component, event, helper) {
@@ -7,6 +6,19 @@
 
   doInit: function (component, event, helper) {
     console.log('doInit called successfully');
+
+    var action = component.get("c.getChatterGroups");
+    $A.enqueueAction(action);
+
+    console.log('about to set callback');
+
+    action.setCallback(this, function (response) {
+      console.log('i am back');
+      // var groups = JSON.parse(response.getReturnValue());
+      var output = response.getReturnValue();
+      // console.log('groups');
+      console.log(output);
+    });
   },
 
   keyCheck: function (component, event, helper) {
@@ -54,7 +66,7 @@
     console.log(results);
 
 
-    var selectedGif=results.data.find(item => item.id === id)
+    var selectedGif = results.data.find(item => item.id === id)
     console.log(selectedGif);
 
     var width = selectedGif.images.original.width;
@@ -62,7 +74,7 @@
 
     console.log("width: " + width);
     console.log("height: " + height);
-    
+
     component.set("v.selectedGifWidth", width);
     component.set("v.selectedGifHeight", height);
     component.set("v.selectedGif", "https://media0.giphy.com/media/" + id + "/giphy.mp4");

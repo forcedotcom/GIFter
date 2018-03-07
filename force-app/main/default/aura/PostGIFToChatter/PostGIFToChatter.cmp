@@ -1,5 +1,0 @@
-<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes">
-
-  Post GIF to Chatter
-
-</aura:component>	

@@ -2,7 +2,7 @@
     "orgName": "wade.wegner Company",
     "edition": "Developer",
     "orgPreferences" : {
-        "enabled": ["S1DesktopEnabled"],
+        "enabled": ["S1DesktopEnabled", "ChatterEnabled"],
         "disabled": ["S1EncryptedStoragePref2"]
     }
 }

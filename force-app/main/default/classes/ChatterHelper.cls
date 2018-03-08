@@ -3,10 +3,7 @@ public with sharing class ChatterHelper {
   @AuraEnabled
   public static String getChatterGroups(String imageUrl, String chatterText) {
 
-    System.debug('getChatterGroups');
-
-    // String imageUrl = 'https://media0.giphy.com/media/xTiTncVep2khPGhK1i/giphy.gif';
-    String fileName = 'me.gif';
+    String fileName = 'giphy.gif';
     String body = chatterText;
     
     Blob imageData = getImageData(imageUrl);

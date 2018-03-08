@@ -8,6 +8,7 @@
   <aura:attribute name="selectedGif" type="String" default="http://placehold.it/480x276" />
   <aura:attribute name="selectedGifWidth" type="String" default="480" />
   <aura:attribute name="selectedGifHeight" type="String" default="360" />
+  <aura:attribute name="chatterText" type="String" />
 
   <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -31,13 +32,13 @@
             </div>
             <br />
             <p>
-              <lightning:textarea aura:id="chatterText" label="Anything you want to say to go with this GIF?" value="" />
+              <lightning:textarea aura:id="chatterText" label="Anything you want to say to go with this GIF?" value="{!v.chatterText}" />
             </p>
 
           </div>
           <footer class="slds-modal__footer">
             <button class="slds-button slds-button_neutral" onclick="{!c.closeModal}">Cancel</button>
-            <button class="slds-button slds-button_brand">Post</button>
+            <button class="slds-button slds-button_brand" onclick="{!c.postToChatter}">Post</button>
           </footer>
         </div>
       </section>

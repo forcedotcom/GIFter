@@ -1,90 +1,69 @@
 public with sharing class ChatterHelper {
     
   @AuraEnabled
-  public static String getChatterGroups() {
+  public static String getChatterGroups(String imageUrl, String chatterText) {
 
-    // System.debug('getChatterGroups');
+    System.debug('getChatterGroups');
 
-    // ConnectApi.ContentHubRepositoryCollection repositoryCollection = ConnectApi.ContentHub.getRepositories();
-
-    // System.debug('repository');
-
-    // for(ConnectApi.ContentHubRepository repository : repositoryCollection.repositories){
-
-    //   System.debug(repository);
-
-    // }
-
-
-
-
-
-//     String userId = UserInfo.getUserId();
-//     System.debug('userId: ' + userId);
+    // String imageUrl = 'https://media0.giphy.com/media/xTiTncVep2khPGhK1i/giphy.gif';
+    String fileName = 'me.gif';
+    String body = chatterText;
     
-//     String communityId = null;
-//     String imageId = '069D00000001INA'; // need to replace
-//     // String mentionedUserId = '005D0000001QNpr'; 
-//     String targetUserOrGroupOrRecordId  = 'me';  // is this right?
+    Blob imageData = getImageData(imageUrl);
 
-//     ConnectApi.FeedItemInput input = new ConnectApi.FeedItemInput();
-//     input.subjectId = targetUserOrGroupOrRecordId;
-//     input.feedElementType = ConnectApi.FeedElementType.FeedItem;
+    ID fileId = saveFile(fileName, imageData);
+    ID postParentId = UserInfo.getUserId();
 
-//     ConnectApi.MessageBodyInput messageInput = new ConnectApi.MessageBodyInput();
-//     ConnectApi.TextSegmentInput textSegment;
-//     ConnectApi.MentionSegmentInput mentionSegment;
-//     ConnectApi.MarkupBeginSegmentInput markupBeginSegment;
-//     ConnectApi.MarkupEndSegmentInput markupEndSegment;
-//     ConnectApi.InlineImageSegmentInput inlineImageSegment;
+    FeedItem post = new FeedItem(
+        ParentId = postParentId,
+        Body = body,
+        IsRichText = true
+    );
 
-//     System.debug('here 1');
+    insert post;
 
-//     messageInput.messageSegments = new List<ConnectApi.MessageSegmentInput>();
+    String feedItemId = post.Id;
 
-//     markupBeginSegment = new ConnectApi.MarkupBeginSegmentInput();
-//     markupBeginSegment.markupType = ConnectApi.MarkupType.Bold;
-//     messageInput.messageSegments.add(markupBeginSegment);
+    // Add image(s) to the chatter post
+    // Requires 'Allow users to edit posts and comments' in Setup | Chatter | Chatter Settings
+    // because adding the feed attachments edits the original post.
+    // http://salesforce.stackexchange.com/questions/156588/feedattachment-invalid-operation-cannot-create-update-or-delete-feed-attachme
+    List<FeedAttachment> feedAttachments = new List<FeedAttachment>();
+    feedAttachments.add( new FeedAttachment(
+      feedEntityId = feedItemId,
+      recordId = fileId,
+      type = 'Content'
+    ));
 
-//     System.debug('here 2');
+    insert feedAttachments;
 
-//     textSegment = new ConnectApi.TextSegmentInput();
-//     textSegment.text = 'Hello ';
-//     messageInput.messageSegments.add(textSegment);
-
-//     System.debug('here 3');
-
-//     // mentionSegment = new ConnectApi.MentionSegmentInput();
-//     // mentionSegment.id = mentionedUserId;
-//     // messageInput.messageSegments.add(mentionSegment);
-
-//     System.debug('here 4');
-
-//     textSegment = new ConnectApi.TextSegmentInput();
-//     textSegment.text = '!';
-//     messageInput.messageSegments.add(textSegment);
-
-//     System.debug('here 5');
-
-//     markupEndSegment = new ConnectApi.MarkupEndSegmentInput();
-//     markupEndSegment.markupType = ConnectApi.MarkupType.Bold;
-//     messageInput.messageSegments.add(markupEndSegment);
-
-//     System.debug('here 6');
-
-// inlineImageSegment = new ConnectApi.InlineImageSegmentInput();
-// inlineImageSegment.altText = 'image one';
-// inlineImageSegment.fileId = imageId;
-// messageInput.messageSegments.add(inlineImageSegment);
-
-//     input.body = messageInput;
-
-//     System.debug('here 7');
-
-//     ConnectApi.ChatterFeeds.postFeedElement(communityId, input, null);
-
-//     System.debug('here 8');
-
-    return 'finished';
+    return feedItemId;
   }
+
+  private static ID saveFile(String fileNameWithExt, Blob fileData) {
+
+    ContentVersion file = new ContentVersion(
+        versionData = fileData,
+        title = fileNameWithExt,
+        pathOnClient = '/' + fileNameWithExt
+    );
+
+    insert file;
+
+    return file.Id;
+  }
+
+  private static Blob getImageData(String url) {
+
+    HttpRequest req = new HttpRequest();
+    req.setEndpoint( url );
+    req.setHeader('accept', 'image/*');
+    
+    req.setMethod('GET');
+    req.setCompressed( false );
+
+    HttpResponse res = new Http().send( req );
+    return res.getBodyAsBlob();
+  }
+
 }

@@ -7,18 +7,7 @@
   doInit: function (component, event, helper) {
     console.log('doInit called successfully');
 
-    var action = component.get("c.getChatterGroups");
-    $A.enqueueAction(action);
-
-    console.log('about to set callback');
-
-    action.setCallback(this, function (response) {
-      console.log('i am back');
-      // var groups = JSON.parse(response.getReturnValue());
-      var output = response.getReturnValue();
-      // console.log('groups');
-      console.log(output);
-    });
+    
   },
 
   keyCheck: function (component, event, helper) {
@@ -77,12 +66,47 @@
 
     component.set("v.selectedGifWidth", width);
     component.set("v.selectedGifHeight", height);
-    component.set("v.selectedGif", "https://media0.giphy.com/media/" + id + "/giphy.mp4");
+    component.set("v.selectedGif", "https://media0.giphy.com/media/" + id + "/giphy.gif");
 
   },
 
   closeModal: function (component) {
     component.set("v.showModal", false);
+  },
+
+  postToChatter: function (component, event, helper) {
+
+    var chatterText = component.get("v.chatterText");
+    var imageUrl = component.get("v.selectedGif");
+
+    console.log('chatterText: ' + chatterText);
+
+    var action = component.get("c.getChatterGroups");
+
+    action.setParams({
+      imageUrl : imageUrl,
+      chatterText : chatterText
+    });
+
+    $A.enqueueAction(action);
+
+    console.log('about to set callback');
+
+    action.setCallback(this, function (response) {
+      console.log('i am back');
+      
+      var feedItemId = response.getReturnValue();
+      console.log('feedItemId');
+      console.log(feedItemId);
+
+      var urlEvent = $A.get("e.force:navigateToURL");
+      urlEvent.setParams({
+        "url": "one/one.app#/sObject/"+ feedItemId + "/view"
+      });
+
+      urlEvent.fire();
+
+    });
   },
 
 })

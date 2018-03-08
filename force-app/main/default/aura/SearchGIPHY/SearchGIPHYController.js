@@ -6,17 +6,14 @@
 
   doInit: function (component, event, helper) {
     console.log('doInit called successfully');
-
-    
   },
 
   keyCheck: function (component, event, helper) {
+
     if (event.which == 13) {
-      console.log('keyCheck detected enter')
 
       var searchTerms = component.get("v.searchTerms");
       helper.search(searchTerms, function (results) {
-        console.log('keyCheck enter returned from helper')
         _GIPHY.setResults(results);
         component.set("v.results", results.data);
       });
@@ -26,11 +23,8 @@
 
   search: function (component, event, helper) {
 
-    console.log('search called successfully');
-
     var searchTerms = component.get("v.searchTerms");
     helper.search(searchTerms, function (results) {
-      console.log('search returned from helper')
       _GIPHY.setResults(results);
       component.set("v.results", results.data);
     });
@@ -43,26 +37,11 @@
 
     component.set("v.showModal", true);
 
-
-    console.log('gifSelected called successfully');
-
     var id = event.target.dataset.index;
-    console.log(id);
-
     var results = _GIPHY.getResults();
-
-    console.log("results");
-    console.log(results);
-
-
     var selectedGif = results.data.find(item => item.id === id)
-    console.log(selectedGif);
-
     var width = selectedGif.images.original.width;
     var height = selectedGif.images.original.height;
-
-    console.log("width: " + width);
-    console.log("height: " + height);
 
     component.set("v.selectedGifWidth", width);
     component.set("v.selectedGifHeight", height);
@@ -78,9 +57,6 @@
 
     var chatterText = component.get("v.chatterText");
     var imageUrl = component.get("v.selectedGif");
-
-    console.log('chatterText: ' + chatterText);
-
     var action = component.get("c.getChatterGroups");
 
     action.setParams({
@@ -90,14 +66,9 @@
 
     $A.enqueueAction(action);
 
-    console.log('about to set callback');
-
     action.setCallback(this, function (response) {
-      console.log('i am back');
       
       var feedItemId = response.getReturnValue();
-      console.log('feedItemId');
-      console.log(feedItemId);
 
       var urlEvent = $A.get("e.force:navigateToURL");
       urlEvent.setParams({

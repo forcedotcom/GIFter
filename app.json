@@ -42,11 +42,5 @@
   },
   "scripts": {
     "pr-predestroy": "./bin/ra-org-delete.sh"
-  },
-  "formation": {
-    "test": {
-      "quantity": 1,
-      "size": "standard-1x"
-    }
   }
 }

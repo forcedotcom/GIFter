@@ -11,6 +11,7 @@ Go to [https://developers.giphy.com/](https://developers.giphy.com/) and create 
 ## Create an Unlocked Package
 
 Create an Unlocked package:
+
 ```
 sfdx force:package2:create -n GIFter -d "Using GIPHY to find GIFs and post to Chatter" -o Unlocked
 ```
@@ -24,11 +25,13 @@ NAME                   VALUE
 Package2 Id            0Ho6A0000004C9hSAE
 Subscriber Package Id  0336A0000001JQ6QAM
 ```
+
 Grab the `Package2 Id`.
 
 Open the `sfdx-project.json` file and replace `YOUR_PACKAGE_ID` with the ID from above (e.g. `0Ho6A0000004C9hSAE`).
 
 Now, create a version of your package:
+
 ```
 sfdx force:package2:version:create -d force-app --wait 10
 ```
@@ -67,3 +70,5 @@ sfdx force:org:open -p one/one.app#/n/GIFter
 ```
 
 Enjoy!!!!!!!!!!!!!!!!
+
+test

@@ -1,14 +1,11 @@
 {
-"packageDirectories": [
-  {
-    "path": "force-app",
-    "default": true,
-    "id": "YOUR_PACKAGE_ID",
-    "versionNumber": "1.0.0.NEXT",
-    "versionName": "Spring ‘18"
-  }
-  ],
-  "namespace": "",
-  "sfdcLoginUrl": "https://login.salesforce.com",
-  "sourceApiVersion": "42.0"
+    "packageDirectories": [
+        {
+            "path": "force-app",
+            "default": true
+        }
+    ],
+    "namespace": "",
+    "sfdcLoginUrl": "https://login.salesforce.com",
+    "sourceApiVersion": "44.0"
 }

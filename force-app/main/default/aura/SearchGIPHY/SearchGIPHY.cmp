@@ -28,7 +28,7 @@
           <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
 
             <div class="preview-image">
-                <img src="{!v.selectedGif}" width="{!v.selectedGifWidth}" height="{!v.selectedGifHeight}" />
+                <img src="{!v.selectedGif}" height="{!v.selectedGifHeight}" />
             </div>
             <br />
             <p>

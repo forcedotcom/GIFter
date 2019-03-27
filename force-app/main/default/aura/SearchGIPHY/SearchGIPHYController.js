@@ -45,7 +45,8 @@
 
     component.set("v.selectedGifWidth", width);
     component.set("v.selectedGifHeight", height);
-    component.set("v.selectedGif", "https://media0.giphy.com/media/" + id + "/giphy.gif");
+    // Force Giphy to return images limited to 200 pixel height to prevent file size limit error
+    component.set("v.selectedGif", "https://media0.giphy.com/media/" + id + "/200.gif");
 
   },
 

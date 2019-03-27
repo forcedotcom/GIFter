@@ -9,32 +9,26 @@ public with sharing class ChatterHelper {
     Blob imageData = getImageData(imageUrl);
 
     ID fileId = saveFile(fileName, imageData);
-    ID postParentId = UserInfo.getUserId();
 
-    FeedItem post = new FeedItem(
-        ParentId = postParentId,
-        Body = body,
-        IsRichText = true
-    );
+    // Use Salesforce "ConnectApi" class so the animated Gif may be embedded Inline
+    ConnectApi.MessageBodyInput messageInput = new ConnectApi.MessageBodyInput();
+    messageInput.messageSegments = new List<ConnectApi.MessageSegmentInput>();
 
-    insert post;
+    ConnectApi.TextSegmentInput textSegment = new ConnectApi.TextSegmentInput();
+    textSegment.text = chatterText;
+    messageInput.messageSegments.add(textSegment);
 
-    String feedItemId = post.Id;
+    ConnectApi.InlineImageSegmentInput inlineImageSegment = new ConnectApi.InlineImageSegmentInput();
+    inlineImageSegment.fileId = fileId;
+    inlineImageSegment.altText = chatterText;
+    messageInput.messageSegments.add(inlineImageSegment);
 
-    // Add image(s) to the chatter post
-    // Requires 'Allow users to edit posts and comments' in Setup | Chatter | Chatter Settings
-    // because adding the feed attachments edits the original post.
-    // http://salesforce.stackexchange.com/questions/156588/feedattachment-invalid-operation-cannot-create-update-or-delete-feed-attachme
-    List<FeedAttachment> feedAttachments = new List<FeedAttachment>();
-    feedAttachments.add( new FeedAttachment(
-      feedEntityId = feedItemId,
-      recordId = fileId,
-      type = 'Content'
-    ));
+    ConnectApi.FeedItemInput input = new ConnectApi.FeedItemInput();
+    input.body = messageInput;
+    input.subjectId = 'me';
 
-    insert feedAttachments;
-
-    return feedItemId;
+    ConnectApi.FeedElement fe = ConnectApi.ChatterFeeds.postFeedElement(Network.getNetworkId(), input);
+    return fe.Id;
   }
 
   private static ID saveFile(String fileNameWithExt, Blob fileData) {
@@ -47,7 +41,9 @@ public with sharing class ChatterHelper {
 
     insert file;
 
-    return file.Id;
+    // The ConnectApi class requires a ContentDocument Id -- not the ContentVersion Id
+    ContentVersion file2 = [select id,ContentDocumentId from ContentVersion where id= :file.id];
+    return file2.ContentDocumentId;
   }
 
   private static Blob getImageData(String url) {

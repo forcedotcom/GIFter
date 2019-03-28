@@ -1,0 +1,75 @@
+<template>
+        <lightning-card title="GIPHY Search Terms" icon-name="utility:search"  >
+                <lightning-layout vertical-align="end" class="path-to-zip slds-m-around--small">
+                <span onkeypress={keyCheck}>
+                    <lightning-layout-item>
+                        <lightning-input class="inputClass" label="Search Terms" type="text" min="0" max="100"></lightning-input>
+                    </lightning-layout-item>
+                </span>
+                <lightning-layout-item>
+                    <lightning-button
+                    label="Search"
+                    onclick={handleGiphySearch}
+                    class="slds-m-around--small"
+                    ></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </lightning-card>
+        <lightning-card icon-name="utility:photo">
+                <h3 slot="title">
+                        GIPHY Search Results: {searchTerms}
+                </h3>
+            <lightning-layout horizontal-align="center" multiple-rows="true">    
+                <template for:each={results} for:item="result">
+                <lightning-layout-item key={result.id} padding="around-small" size="8" small-device-size="6" medium-device-size="4" large-device-size="3">
+        
+                    <div class="gif-image">
+                    <a onclick={gifSelect}>
+                        <img id={result.id} src={result.images.fixed_height.url} data-index={result.id} data-mylink={result.images.fixed_height.url}></img>
+                    </a>
+                    </div>
+        
+                </lightning-layout-item>
+                </template>
+        
+            </lightning-layout>
+        </lightning-card>
+        
+            <template if:true={showPopup}>
+                <div class="post-modal">
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1"
+                      class="slds-modal  slds-fade-in-open">
+                      <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                          <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Post to Chatter?</h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+              
+                          <div class="preview-image">
+                            <img src={selectedGif.images.fixed_height.url}></img>
+                          </div>
+                          <br />
+                          <p>
+                            <lightning-textarea class="chatterText" label="Anything you want to say to go with this GIF?" value={chatterText}></lightning-textarea>
+                          </p>
+              
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button onclick={togglePopup} class="slds-button slds-button_neutral">Cancel</button>
+                            <button onclick={postToChatter} class="slds-button slds-button_brand">Post</button>
+                        </footer>
+                      </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </template>
+        
+            <template if:true={showSpinner}>
+                <div class="loading">
+                        <div>
+                            <lightning-spinner class="backgroundInverse" alternative-text="Loading" size="large" variant="inverse"></lightning-spinner>
+                        </div>
+                </div>  
+            </template>
+            
+</template>
